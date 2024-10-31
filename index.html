@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <title>Propellopplegget</title>
+
+    <link href="style/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="content-center">
+    <h1>Propellopplegget</h1>
+</div>
+
+<div class="content-center">
+    <img src="media/propell.webp" alt="Propelleringsmessig emblem">
+</div>
+
+<div class="content-center hide">
+    <h3 id="dagensPropellering">Laster dagens propellering...</h3>
+</div>
+
+<div class="content-center">
+    <p>
+        Propelleringen påvirkes av <a href="https://twitch.tv/forstegir">Førstegir</a> i større eller mindre grad
+    </p>
+</div>
+
+<script type="application/javascript">
+    document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("http://192.168.0.103:8084/v0/user-tracker/api/external/propellering/v0/dagens-propellering");
+
+        const dagensPropellering = document.querySelector("#dagensPropellering");
+
+        dagensPropellering.innerText = await response.text();
+        dagensPropellering.classList.remove("hide");
+    });
+</script>
+</body>
+</html>

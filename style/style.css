@@ -1,0 +1,33 @@
+body {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: x-large;
+    color: white;
+    background-color: black;
+}
+
+table th {
+    border: 1px solid #909090;
+    padding: 10px;
+}
+
+table td {
+    border: 1px solid #909090;
+    padding: 10px;
+}
+
+.content {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-center {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.hide {
+    visibility: hidden;
+}
