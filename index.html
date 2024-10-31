@@ -27,7 +27,7 @@
 
 <script type="application/javascript">
     document.addEventListener("DOMContentLoaded", async () => {
-        const response = await fetch("http://192.168.0.103:8084/v0/user-tracker/api/external/propellering/v0/dagens-propellering");
+        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v0/dagens-propellering");
 
         const dagensPropellering = document.querySelector("#dagensPropellering");
 
