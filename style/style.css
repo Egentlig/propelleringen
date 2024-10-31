@@ -8,11 +8,13 @@ body {
 table th {
     border: 1px solid #909090;
     padding: 10px;
+    font-size: large;
 }
 
 table td {
     border: 1px solid #909090;
     padding: 10px;
+    font-size: large;
 }
 
 .content {

@@ -19,6 +19,19 @@
     <h3 id="dagensPropellering" class="hide">Laster dagens propellering...</h3>
 </div>
 
+<table id="historiskPropellering" class="content-center">
+    <thead>
+    <tr>
+        <th>Dag</th>
+        <th>Propell</th>
+        <th>Propellering</th>
+    </tr>
+    </thead>
+    <tbody id="historiskPropelleringBody">
+
+    </tbody>
+</table>
+
 <div class="content-center">
     <p>
         Propelleringen påvirkes av <a href="https://twitch.tv/forstegir">Førstegir</a> i større eller mindre grad
@@ -26,13 +39,48 @@
 </div>
 
 <script type="application/javascript">
-    document.addEventListener("DOMContentLoaded", async () => {
+    const hentDagensPropellering = async () => {
         const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v0/dagens-propellering");
 
         const dagensPropellering = document.querySelector("#dagensPropellering");
 
         dagensPropellering.innerText = await response.text();
         dagensPropellering.classList.remove("hide");
+    }
+
+    const hentHistoriskPropellering = async () => {
+        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v0/historisk-propellering");
+
+        const historiskPropellering = document.querySelector("#historiskPropellering");
+        const historiskPropelleringBody = document.querySelector("#historiskPropelleringBody");
+
+        const propelleringshistorikk = await response.json();
+        propelleringshistorikk.forEach(propellering => {
+            const row = document.createElement("tr");
+
+            const dagData = document.createElement("td");
+            dagData.innerText = propellering.day;
+            row.appendChild(dagData);
+
+            const propellData = document.createElement("td");
+            propellData.innerText = propellering.displayName;
+            row.appendChild(propellData);
+
+            const propelleringData = document.createElement("td");
+            propelleringData.innerText = `${propelleringData.propellering}%`
+            row.appendChild(propelleringData);
+
+            historiskPropelleringBody.appendChild(row);
+        });
+
+        historiskPropellering.classList.remove("hide");
+    }
+
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        await hentDagensPropellering();
+
+        await hentHistoriskPropellering();
     });
 </script>
 </body>
