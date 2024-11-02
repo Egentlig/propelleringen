@@ -68,11 +68,11 @@
             row.appendChild(dagData);
 
             const propellData = document.createElement("td");
-            propellData.innerText = propellering.displayName;
+            propellData.innerText = propellering.displayName != null ? propellering.displayName : "Ingen propell!";
             row.appendChild(propellData);
 
             const propelleringData = document.createElement("td");
-            propelleringData.innerText = `${propellering.propellering}%`
+            propelleringData.innerText = propellering.propellering != null ? `${propellering.propellering}%` : "-";
             row.appendChild(propelleringData);
 
             historiskPropelleringBody.appendChild(row);
@@ -83,10 +83,11 @@
     }
 
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        await hentDagensPropellering();
-
-        await hentHistoriskPropellering();
+    document.addEventListener("DOMContentLoaded", () => {
+        Promise.all([
+            hentDagensPropellering(),
+            hentHistoriskPropellering()
+        ]).catch(reason => console.error(`Initial load failed. Reason: ${reason}`));
     });
 </script>
 </body>
