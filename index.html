@@ -61,12 +61,18 @@
         const dagensPropellering = document.querySelector("#dagensPropellering");
         const dagensMinstePropellering = document.querySelector("#dagensMinstePropellering");
 
-        const dagensPropelleringJson = await response.json()
-        const toppPropell = dagensPropelleringJson.toppPropell;
-        const bunnPropell = dagensPropelleringJson.bunnPropell;
+        if (response.ok) {
+            const dagensPropelleringJson = await response.json()
+            const toppPropell = dagensPropelleringJson.toppPropell;
+            const bunnPropell = dagensPropelleringJson.bunnPropell;
 
-        dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
-        dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
+            dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
+            dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
+        } else {
+            dagensPropellering.innerText = `Ingen propell i dag :(`;
+            dagensMinstePropellering.innerText = ``;
+        }
+
         dagensPropellering.classList.remove("hide");
         dagensMinstePropellering.classList.remove("hide");
     }
