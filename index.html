@@ -68,6 +68,7 @@
         dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
         dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
         dagensPropellering.classList.remove("hide");
+        dagensMinstePropellering.classList.remove("hide");
     }
 
     const hentHistoriskPropellering = async () => {
