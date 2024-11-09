@@ -17,6 +17,7 @@
 
 <div class="content-center">
     <h2 id="dagensPropellering" class="hide">Laster dagens propellering...</h2>
+    <h4 id="dagensMinstePropellering" class="hide">Laster dagens minste propellering...</h4>
 </div>
 
 <div class="content-center">
@@ -27,7 +28,9 @@
     <thead>
     <tr>
         <th>Dag</th>
-        <th>Propell</th>
+        <th>Topp propell</th>
+        <th>Propellering</th>
+        <th>Minste propell</th>
         <th>Propellering</th>
     </tr>
     </thead>
@@ -53,16 +56,22 @@
 
 <script type="application/javascript">
     const hentDagensPropellering = async () => {
-        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v0/dagens-propellering");
+        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v1/dagens-propellering");
 
         const dagensPropellering = document.querySelector("#dagensPropellering");
+        const dagensMinstePropellering = document.querySelector("#dagensMinstePropellering");
 
-        dagensPropellering.innerText = await response.text();
+        const dagensPropelleringJson = await response.json()
+        const toppPropell = dagensPropelleringJson.toppPropell;
+        const bunnPropell = dagensPropelleringJson.bunnPropell;
+
+        dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
+        dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
         dagensPropellering.classList.remove("hide");
     }
 
     const hentHistoriskPropellering = async () => {
-        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v0/historisk-propellering");
+        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v1/historisk-propellering");
 
         const historiskPropellering = document.querySelector("#historiskPropellering");
         const historiskPropelleringTable = document.querySelector("#historiskPropelleringTable");
@@ -70,19 +79,30 @@
 
         const propelleringshistorikk = await response.json();
         propelleringshistorikk.forEach(propellering => {
+            const toppPropell = propellering.toppPropell;
+            const bunnPropell = propellering.bunnPropell;
+
             const row = document.createElement("tr");
 
             const dagData = document.createElement("td");
-            dagData.innerText = propellering.day;
+            dagData.innerText = toppPropell.day;
             row.appendChild(dagData);
 
             const propellData = document.createElement("td");
-            propellData.innerText = propellering.displayName != null ? propellering.displayName : "Ingen propell!";
+            propellData.innerText = toppPropell.displayName != null ? toppPropell.displayName : "Ingen propell!";
             row.appendChild(propellData);
 
             const propelleringData = document.createElement("td");
-            propelleringData.innerText = propellering.propellering != null ? `${propellering.propellering}%` : "-";
+            propelleringData.innerText = toppPropell.propellering != null ? `${toppPropell.propellering}%` : "-";
             row.appendChild(propelleringData);
+
+            const minstePropellData = document.createElement("td");
+            minstePropellData.innerText = bunnPropell.displayName != null ? bunnPropell.displayName : "Ingen propell!";
+            row.appendChild(minstePropellData);
+
+            const minstePropelleringData = document.createElement("td");
+            minstePropelleringData.innerText = bunnPropell.propellering != null ? `${bunnPropell.propellering}%` : "-";
+            row.appendChild(minstePropelleringData);
 
             historiskPropelleringBody.appendChild(row);
         });
