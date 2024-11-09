@@ -56,21 +56,22 @@
 
 <script type="application/javascript">
     const hentDagensPropellering = async () => {
-        const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v1/dagens-propellering");
-
         const dagensPropellering = document.querySelector("#dagensPropellering");
         const dagensMinstePropellering = document.querySelector("#dagensMinstePropellering");
 
-        if (response.ok) {
+        try {
+            const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v1/dagens-propellering");
+
             const dagensPropelleringJson = await response.json()
             const toppPropell = dagensPropelleringJson.toppPropell;
             const bunnPropell = dagensPropelleringJson.bunnPropell;
 
             dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
             dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
-        } else {
+        } catch (error) {
             dagensPropellering.innerText = `Ingen propell i dag :(`;
             dagensMinstePropellering.innerText = ``;
+            console.error(error);
         }
 
         dagensPropellering.classList.remove("hide");
