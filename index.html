@@ -39,13 +39,13 @@
     </tbody>
 </table>
 
-<div class="content-center">
+<div id="forstegir" class="content-center hide">
     <p>
         Propelleringen påvirkes av <a href="https://twitch.tv/forstegir">Førstegir</a> i større eller mindre grad
     </p>
 </div>
 
-<div class="content-center">
+<div id="resorted" class="content-center hide">
     <p class="x-small">
         Takk til Resorted som sørger for at formatet på propell-meldingen til StreamElements ikke endres på *
     </p>
@@ -124,7 +124,10 @@
         Promise.all([
             hentDagensPropellering(),
             hentHistoriskPropellering()
-        ]).catch(reason => console.error(`Initial load failed. Reason: ${reason}`));
+        ]).then(() => {
+            document.querySelector("#forstegir").classList.remove("hide");
+            document.querySelector("#resorted").classList.remove("hide");
+        }).catch(reason => console.error(`Initial load failed. Reason: ${reason}`));
     });
 </script>
 </body>
