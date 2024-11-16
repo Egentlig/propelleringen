@@ -69,9 +69,9 @@
             const toppPropell = dagensPropelleringJson.toppPropell;
             const bunnPropell = dagensPropelleringJson.bunnPropell;
 
-            dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
-            dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
-            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering i dag er ${dagensPropelleringJson.statistikk.average}%`
+            dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.visningsnavn} med hele ${toppPropell.propellering}% propellering`;
+            dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.visningsnavn} med kun ${bunnPropell.propellering}% propellering`;
+            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering i dag er ${dagensPropelleringJson.statistikk.gjennomsnitt}%`
         } catch (error) {
             dagensPropellering.innerText = `Ingen propell i dag :(`;
             dagensMinstePropellering.innerText = ``;
@@ -98,11 +98,11 @@
             const row = document.createElement("tr");
 
             const dagData = document.createElement("td");
-            dagData.innerText = toppPropell.day;
+            dagData.innerText = toppPropell.dag;
             row.appendChild(dagData);
 
             const propellData = document.createElement("td");
-            propellData.innerText = toppPropell.displayName != null ? toppPropell.displayName : "Ingen propell!";
+            propellData.innerText = toppPropell.visningsnavn != null ? toppPropell.visningsnavn : "Ingen propell!";
             row.appendChild(propellData);
 
             const propelleringData = document.createElement("td");
@@ -110,7 +110,7 @@
             row.appendChild(propelleringData);
 
             const minstePropellData = document.createElement("td");
-            minstePropellData.innerText = bunnPropell.displayName != null ? bunnPropell.displayName : "Ingen propell!";
+            minstePropellData.innerText = bunnPropell.visningsnavn != null ? bunnPropell.visningsnavn : "Ingen propell!";
             row.appendChild(minstePropellData);
 
             const minstePropelleringData = document.createElement("td");
@@ -118,7 +118,7 @@
             row.appendChild(minstePropelleringData);
 
             const gjennomsnittligPropelleringData = document.createElement("td");
-            gjennomsnittligPropelleringData.innerText = propellering.statistikk.average != null ? `${propellering.statistikk.average}%` : "-";
+            gjennomsnittligPropelleringData.innerText = propellering.statistikk.gjennomsnitt != null ? `${propellering.statistikk.gjennomsnitt}%` : "-";
             row.appendChild(gjennomsnittligPropelleringData);
 
             historiskPropelleringBody.appendChild(row);
@@ -127,7 +127,6 @@
         historiskPropellering.classList.remove("hide");
         historiskPropelleringTable.classList.remove("hide");
     }
-
 
     document.addEventListener("DOMContentLoaded", () => {
         Promise.all([
