@@ -34,6 +34,7 @@
         <th>Minste propell</th>
         <th>Propellering</th>
         <th>Gjennomsnitt</th>
+        <th>Antall propeller</th>
     </tr>
     </thead>
     <tbody id="historiskPropelleringBody">
@@ -71,10 +72,11 @@
 
             dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.visningsnavn} med hele ${toppPropell.propellering}% propellering`;
             dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.visningsnavn} med kun ${bunnPropell.propellering}% propellering`;
-            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering i dag er ${dagensPropelleringJson.statistikk.gjennomsnitt}%`
+            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering for ${dagensPropelleringJson.statistikk.antallPropeller} propeller i dag er ${dagensPropelleringJson.statistikk.gjennomsnitt}%`
         } catch (error) {
             dagensPropellering.innerText = `Ingen propell i dag :(`;
             dagensMinstePropellering.innerText = ``;
+            gjennomsnittligPropellering.innerText = ``;
             console.error(error);
         }
 
@@ -120,6 +122,10 @@
             const gjennomsnittligPropelleringData = document.createElement("td");
             gjennomsnittligPropelleringData.innerText = propellering.statistikk.gjennomsnitt != null ? `${propellering.statistikk.gjennomsnitt}%` : "-";
             row.appendChild(gjennomsnittligPropelleringData);
+
+            const antallPropellerData = document.createElement("td");
+            antallPropellerData.innerText = propellering.statistikk.antallPropeller != null ? `${propellering.statistikk.antallPropeller}` : "-";
+            row.appendChild(antallPropellerData);
 
             historiskPropelleringBody.appendChild(row);
         });
