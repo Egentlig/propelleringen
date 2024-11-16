@@ -18,10 +18,11 @@
 <div class="content-center">
     <h2 id="dagensPropellering" class="hide">Laster dagens propellering...</h2>
     <h4 id="dagensMinstePropellering" class="hide">Laster dagens minste propellering...</h4>
+    <h5 id="gjennomsnittligPropellering" class="hide">Laster gjennomsnittlig propellering...</h5>
 </div>
 
 <div class="content-center">
-    <h4 id="historiskPropellering" class="hide">Historisk propellering</h4>
+    <h3 id="historiskPropellering" class="hide">Historisk propellering</h3>
 </div>
 
 <table id="historiskPropelleringTable" class="content-center hide">
@@ -32,6 +33,7 @@
         <th>Propellering</th>
         <th>Minste propell</th>
         <th>Propellering</th>
+        <th>Gjennomsnitt</th>
     </tr>
     </thead>
     <tbody id="historiskPropelleringBody">
@@ -58,6 +60,7 @@
     const hentDagensPropellering = async () => {
         const dagensPropellering = document.querySelector("#dagensPropellering");
         const dagensMinstePropellering = document.querySelector("#dagensMinstePropellering");
+        const gjennomsnittligPropellering = document.querySelector("#gjennomsnittligPropellering");
 
         try {
             const response = await fetch("https://api.opplegget.no/twitch/user/propellering/v1/dagens-propellering");
@@ -68,6 +71,7 @@
 
             dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.displayName} med hele ${toppPropell.propellering}% propellering`;
             dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.displayName} med kun ${bunnPropell.propellering}% propellering`;
+            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering i dag er ${dagensPropelleringJson.statistikk.average}%`
         } catch (error) {
             dagensPropellering.innerText = `Ingen propell i dag :(`;
             dagensMinstePropellering.innerText = ``;
@@ -111,6 +115,10 @@
             const minstePropelleringData = document.createElement("td");
             minstePropelleringData.innerText = bunnPropell.propellering != null ? `${bunnPropell.propellering}%` : "-";
             row.appendChild(minstePropelleringData);
+
+            const gjennomsnittligPropelleringData = document.createElement("td");
+            gjennomsnittligPropelleringData.innerText = propellering.statistikk.average != null ? `${propellering.statistikk.average}%` : "-";
+            row.appendChild(gjennomsnittligPropelleringData);
 
             historiskPropelleringBody.appendChild(row);
         });
