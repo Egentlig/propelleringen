@@ -92,8 +92,9 @@
         const historiskPropelleringTable = document.querySelector("#historiskPropelleringTable");
         const historiskPropelleringBody = document.querySelector("#historiskPropelleringBody");
 
-        const propelleringshistorikk = await response.json();
-        propelleringshistorikk.forEach(propellering => {
+        const responseJson = await response.json();
+
+        responseJson.historikk.forEach(propellering => {
             const toppPropell = propellering.toppPropell;
             const bunnPropell = propellering.bunnPropell;
 
