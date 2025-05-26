@@ -30,6 +30,14 @@ table td {
     text-align: center;
 }
 
+.content-center-narrow {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
 .row {
     display: flex;
     flex-direction: row;
