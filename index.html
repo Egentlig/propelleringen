@@ -22,7 +22,7 @@
 </div>
 
 <div class="content-center">
-    <h3 id="historiskPropellering" class="hide">Historisk propellering</h3>
+    <h2 id="historiskPropellering" class="hide">Historisk propellering</h2>
 </div>
 
 <div id="historiskPropelleringStatistikk" class="content-center row hide">
@@ -60,6 +60,10 @@
 
     </tbody>
 </table>
+
+<div class="content-center">
+    <h5 id="toppOgMinstePropellHistorisk" class="hide">Topp propell og minste propell historisk sett</h5>
+</div>
 
 <table id="historiskPropelleringTable" class="content-center hide">
     <thead>
@@ -158,6 +162,7 @@
 
         const historiskPropellering = document.querySelector("#historiskPropellering");
         const historiskPropelleringStatistikk = document.querySelector("#historiskPropelleringStatistikk");
+        const toppOgMinstePropellHistorisk = document.querySelector("#toppOgMinstePropellHistorisk");
         const historiskPropelleringTable = document.querySelector("#historiskPropelleringTable");
         const historiskPropelleringBody = document.querySelector("#historiskPropelleringBody");
 
@@ -213,6 +218,7 @@
         historiskPropelleringStatistikk.classList.remove("hide");
 
         historiskPropellering.classList.remove("hide");
+        toppOgMinstePropellHistorisk.classList.remove("hide");
         historiskPropelleringTable.classList.remove("hide");
     };
 
