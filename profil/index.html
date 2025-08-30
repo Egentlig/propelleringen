@@ -34,8 +34,9 @@
 
             try {
                 const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/dagens-propellering");
+                const json = await response.json();
 
-                dagensPropellering.innerText = `dagens propellering`;
+                dagensPropellering.innerText = `${json.visningsnavn} er ${json.propellering}% propell i dag`;
             } catch (error) {
                 dagensPropellering.innerText = `Har ikke sjekket propellering i dag. Fy skam!`;
                 console.error(error);
@@ -49,7 +50,7 @@
 
             try {
                 const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/siste-ukens-propellering?displayName=${navn}`);
-                const json = await response.json()
+                const json = await response.json();
 
                 sisteUkensPropellering.innerText = `Gjennomsnittlig propellering siste 7 dager er ${json.gjennomsnitt}% basert på ${json.antallPropellsjekker} propellsjekker`;
             } catch (error) {
