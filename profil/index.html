@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nb">
+
+<head>
+    <title>Propelleringsprofilering</title>
+
+    <link href="style/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="content-center hide">
+        <h1 id="title">Laster tittel...</h1>
+    </div>
+
+    <div class="content-center">
+        <img src="media/propell.webp" alt="Propelleringsmessig emblem">
+    </div>
+
+    <div class="content-center">
+        <h2 id="dagensPropellering" class="hide">Laster dagens propellering...</h2>
+        <h4 id="sisteUkensPropellering" class="hide">Laster siste ukens propellering...</h4>
+    </div>
+
+    <div id="forstegir" class="content-center hide">
+        <p>
+            Propelleringen påvirkes av <a href="https://twitch.tv/forstegir">Førstegir</a> i større eller mindre grad
+        </p>
+    </div>
+
+    <script type="application/javascript">
+        const hentDagensPropellering = async navn => {
+            const dagensPropellering = document.querySelector("#dagensPropellering");
+
+            try {
+                const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/dagens-propellering");
+
+                dagensPropellering.innerText = `dagens propellering`;
+            } catch (error) {
+                dagensPropellering.innerText = `Har ikke sjekket propellering i dag. Fy skam!`;
+                console.error(error);
+            }
+
+            dagensPropellering.classList.remove("hide");
+        };
+
+        const hentSisteUkensPropellering = async navn => {
+            const sisteUkensPropellering = document.querySelector("#sisteUkensPropellering");
+
+            try {
+                const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/siste-ukens-propellering?displayName=${navn}`);
+
+                sisteUkensPropellering.innerText = `dagens propellering`;
+            } catch (error) {
+                sisteUkensPropellering.innerText = `Foklingsmessig svikt i DOS-en :(`;
+                console.error(error);
+            }
+
+            sisteUkensPropellering.classList.remove("hide");
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const queryParams = new URLSearchParams(window.location.search);
+            let navn = queryParams.get('navn');
+
+            Promise.all([
+                hentDagensPropellering(navn),
+                hentSisteUkensPropellering(navn)
+            ]).then(() => {
+                const title = document.querySelector("#title");
+                title.innerText = `Propelleringsprofilering for ${navn}`
+                title.classList.remove("hide");
+                console.log("Initial load completed.");
+            }).catch(reason => {
+                console.error(`Initial load failed. Reason: ${reason}`);
+            });
+        });
+    </script>
+</body>
+
+</html>
