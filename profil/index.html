@@ -33,7 +33,7 @@
             const dagensPropellering = document.querySelector("#dagensPropellering");
 
             try {
-                const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/dagens-propellering");
+                const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/dagens-propell?displayName=${navn}`);
                 const json = await response.json();
 
                 dagensPropellering.innerText = `${json.visningsnavn} er ${json.propellering}% propell i dag`;
