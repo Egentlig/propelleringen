@@ -50,7 +50,7 @@
             try {
                 const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/siste-ukens-propellering?displayName=${navn}`);
 
-                sisteUkensPropellering.innerText = `dagens propellering`;
+                sisteUkensPropellering.innerText = `Gjennomsnittlig propellering siste 7 dager er ${response.gjennomsnitt}% basert på ${response.antallPropellsjekker} propellsjekker`;
             } catch (error) {
                 sisteUkensPropellering.innerText = `Foklingsmessig svikt i DOS-en :(`;
                 console.error(error);
