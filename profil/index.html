@@ -33,10 +33,12 @@
             const dagensPropellering = document.querySelector("#dagensPropellering");
 
             try {
-                const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/dagens-propell?displayName=${navn}`);
-                const json = await response.json();
+                const dagensResponse = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/dagens-propell?displayName=${navn}`);
+                const gjennomsnittResponse = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/gjennomsnittspropellering-txt?displayName=${navn}`);
+                const dagens = await dagensResponse.json();
+                const gjennomsnitt = await gjennomsnittResponse.text()
 
-                dagensPropellering.innerText = `${json.visningsnavn} er ${json.propellering}% propell i dag`;
+                dagensPropellering.innerText = `${dagens.visningsnavn} er ${dagens.propellering}% propell i dag, og har et gjennomsnitt på ${gjennomsnitt}%`;
             } catch (error) {
                 dagensPropellering.innerText = `Har ikke sjekket propellering i dag. Fy skam!`;
                 console.error(error);
