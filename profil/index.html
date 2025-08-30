@@ -38,7 +38,7 @@
                 const dagens = await dagensResponse.json();
                 const gjennomsnitt = await gjennomsnittResponse.text()
 
-                dagensPropellering.innerText = `${dagens.visningsnavn} er ${dagens.propellering}% propell i dag, og har et gjennomsnitt på ${gjennomsnitt}%`;
+                dagensPropellering.innerText = `${dagens.visningsnavn} er ${dagens.propellering}% propell i dag og har et historisk gjennomsnitt på ${gjennomsnitt}%`;
             } catch (error) {
                 dagensPropellering.innerText = `Har ikke sjekket propellering i dag. Fy skam!`;
                 console.error(error);
