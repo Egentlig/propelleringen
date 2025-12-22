@@ -126,7 +126,19 @@
     };
 
     const hentToppGjennomsnittspropellering = async () => {
-        const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/topp-gjennomsnittspropellering?minsteAntallPropellsjekker=20");
+        const queryParams = new URLSearchParams(window.location.search);
+
+        let minsteAntallPropellsjekker = queryParams.get('minsteAntallPropellsjekker');
+        if (minsteAntallPropellsjekker == null) {
+            minsteAntallPropellsjekker = 20;
+        }
+
+        let plasser = queryParams.get('plasser');
+        if (plasser == null) {
+            plasser = 20;
+        }
+
+        const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/topp-gjennomsnittspropellering?minsteAntallPropellsjekker=${minsteAntallPropellsjekker}&plasser=${plasser}`);
 
         const toppGjennomsnittspropellering = document.querySelector("#toppGjennomsnittspropellering");
         const toppGjennomsnittspropelleringTable = document.querySelector("#toppGjennomsnittspropelleringTable");
