@@ -123,52 +123,8 @@
         gjennomsnittligPropellering.classList.remove("hide");
     };
 
-    const hentToppGjennomsnittspropellering = async () => {
-        const queryParams = new URLSearchParams(window.location.search);
-
-        let minsteAntallPropellsjekker = queryParams.get('minsteAntallPropellsjekker');
-        if (minsteAntallPropellsjekker == null) {
-            minsteAntallPropellsjekker = 20;
-        }
-
-        let plasser = queryParams.get('plasser');
-        if (plasser == null) {
-            plasser = 20;
-        }
-
-        const response = await fetch(`https://api.j4d.dev/twitch/user/propellering/v1/topp-gjennomsnittspropellering?minsteAntallPropellsjekker=${minsteAntallPropellsjekker}&plasser=${plasser}`);
-
-        const toppGjennomsnittspropellering = document.querySelector("#toppGjennomsnittspropellering");
-        const toppGjennomsnittspropelleringTable = document.querySelector("#toppGjennomsnittspropelleringTable");
-        const toppGjennomsnittspropelleringBody = document.querySelector("#toppGjennomsnittspropelleringBody");
-
-        const responseJson = await response.json();
-
-        for (let i = 0; i < responseJson.topp20.length; i++) {
-            const propellering = responseJson.topp20[i];
-            const row = document.createElement("tr");
-
-            const nummerData = document.createElement("td");
-            nummerData.innerText = i + 1;
-            row.appendChild(nummerData);
-
-            const propellData = document.createElement("td");
-            propellData.innerText = propellering.displayName;
-            row.appendChild(propellData);
-
-            const gjennomsnittData = document.createElement("td");
-            gjennomsnittData.innerText = propellering.propellering;
-            row.appendChild(gjennomsnittData);
-
-            toppGjennomsnittspropelleringBody.appendChild(row);
-        }
-
-        toppGjennomsnittspropellering.classList.remove("hide");
-        toppGjennomsnittspropelleringTable.classList.remove("hide");
-    };
-
     const hentHistoriskPropellering = async () => {
-        const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/historisk-propellering");
+        const response = await fetch("https://api.j4d.dev/spinner-rewrite/spin/history");
 
         const historiskPropellering = document.querySelector("#historiskPropellering");
         const historiskPropelleringStatistikk = document.querySelector("#historiskPropelleringStatistikk");
@@ -181,51 +137,73 @@
         const totaltAntallPropellsjekker = document.querySelector("#totaltAntallPropellsjekker");
         const gjennomsnitt = document.querySelector("#gjennomsnitt");
 
+        const toppGjennomsnittspropellering = document.querySelector("#toppGjennomsnittspropellering");
+        const toppGjennomsnittspropelleringTable = document.querySelector("#toppGjennomsnittspropelleringTable");
+        const toppGjennomsnittspropelleringBody = document.querySelector("#toppGjennomsnittspropelleringBody");
+
         const responseJson = await response.json();
 
-        responseJson.historikk.forEach(propellering => {
-            const toppPropell = propellering.toppPropell;
-            const bunnPropell = propellering.bunnPropell;
+        totalToppPropell.innerText = responseJson.topSpin;
+        totalBunnPropell.innerText = responseJson.bottomSpin;
+        totaltAntallPropellsjekker.innerText = responseJson.averagePercentage;
+        gjennomsnitt.innerText = responseJson.spins;
+        historiskPropelleringStatistikk.classList.remove("hide");
 
+        for (let i = 0; i < responseJson.topAverage.length; i++) {
+            const topAverage = responseJson.topAverage[i];
+            const row = document.createElement("tr");
+
+            const nummerData = document.createElement("td");
+            nummerData.innerText = i + 1;
+            row.appendChild(nummerData);
+
+            const propellData = document.createElement("td");
+            propellData.innerText = topAverage.chatters;
+            row.appendChild(propellData);
+
+            const gjennomsnittData = document.createElement("td");
+            gjennomsnittData.innerText = topAverage.averagePercentage;
+            row.appendChild(gjennomsnittData);
+
+            toppGjennomsnittspropelleringBody.appendChild(row);
+        }
+
+        toppGjennomsnittspropellering.classList.remove("hide");
+        toppGjennomsnittspropelleringTable.classList.remove("hide");
+
+        responseJson.dailySpinSummaries.forEach(dailySpinSummary => {
             const row = document.createElement("tr");
 
             const dagData = document.createElement("td");
-            dagData.innerText = toppPropell.dag;
+            dagData.innerText = dailySpinSummary.day;
             row.appendChild(dagData);
 
             const propellData = document.createElement("td");
-            propellData.innerText = toppPropell.visningsnavn != null ? toppPropell.visningsnavn : "Ingen propell!";
+            propellData.innerText = dailySpinSummary.topText;
             row.appendChild(propellData);
 
             const propelleringData = document.createElement("td");
-            propelleringData.innerText = toppPropell.propellering != null ? `${toppPropell.propellering}%` : "-";
+            propelleringData.innerText = dailySpinSummary.topPercentage;
             row.appendChild(propelleringData);
 
             const minstePropellData = document.createElement("td");
-            minstePropellData.innerText = bunnPropell.visningsnavn != null ? bunnPropell.visningsnavn : "Ingen propell!";
+            minstePropellData.innerText = dailySpinSummary.bottomText;
             row.appendChild(minstePropellData);
 
             const minstePropelleringData = document.createElement("td");
-            minstePropelleringData.innerText = bunnPropell.propellering != null ? `${bunnPropell.propellering}%` : "-";
+            minstePropelleringData.innerText = dailySpinSummary.bottomPercentage;
             row.appendChild(minstePropelleringData);
 
             const gjennomsnittligPropelleringData = document.createElement("td");
-            gjennomsnittligPropelleringData.innerText = propellering.statistikk.gjennomsnitt != null ? `${propellering.statistikk.gjennomsnitt}%` : "-";
+            gjennomsnittligPropelleringData.innerText = dailySpinSummary.averagePercentage;
             row.appendChild(gjennomsnittligPropelleringData);
 
             const antallPropellerData = document.createElement("td");
-            antallPropellerData.innerText = propellering.statistikk.antallPropeller != null ? `${propellering.statistikk.antallPropeller}` : "-";
+            antallPropellerData.innerText = dailySpinSummary.spins;
             row.appendChild(antallPropellerData);
 
             historiskPropelleringBody.appendChild(row);
         });
-
-        const statistikk = responseJson.statistikk;
-        totalToppPropell.innerText = statistikk.totalToppPropell;
-        totalBunnPropell.innerText = statistikk.totalBunnPropell;
-        totaltAntallPropellsjekker.innerText = statistikk.totaltAntallPropellsjekker;
-        gjennomsnitt.innerText = statistikk.gjennomsnitt;
-        historiskPropelleringStatistikk.classList.remove("hide");
 
         historiskPropellering.classList.remove("hide");
         toppOgMinstePropellHistorisk.classList.remove("hide");
@@ -235,7 +213,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         Promise.all([
             hentDagensPropellering(),
-            hentToppGjennomsnittspropellering(),
             hentHistoriskPropellering()
         ]).then(() => {
             document.querySelector("#forstegir").classList.remove("hide");
