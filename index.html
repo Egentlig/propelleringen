@@ -145,8 +145,8 @@
 
         totalToppPropell.innerText = responseJson.topSpin;
         totalBunnPropell.innerText = responseJson.bottomSpin;
-        totaltAntallPropellsjekker.innerText = responseJson.averagePercentage;
-        gjennomsnitt.innerText = responseJson.spins;
+        totaltAntallPropellsjekker.innerText = responseJson.spins;
+        gjennomsnitt.innerText = responseJson.averagePercentage;
         historiskPropelleringStatistikk.classList.remove("hide");
 
         for (let i = 0; i < responseJson.topAverage.length; i++) {
