@@ -104,15 +104,13 @@
         const gjennomsnittligPropellering = document.querySelector("#gjennomsnittligPropellering");
 
         try {
-            const response = await fetch("https://api.j4d.dev/twitch/user/propellering/v1/dagens-propellering");
+            const response = await fetch("https://api.j4d.dev/spinner-rewrite/spin/daily");
 
-            const dagensPropelleringJson = await response.json();
-            const toppPropell = dagensPropelleringJson.toppPropell;
-            const bunnPropell = dagensPropelleringJson.bunnPropell;
+            const json = await response.json();
 
-            dagensPropellering.innerText = `Topp propell i dag er ${toppPropell.visningsnavn} med hele ${toppPropell.propellering}% propellering`;
-            dagensMinstePropellering.innerText = `Minste propell i dag er ${bunnPropell.visningsnavn} med kun ${bunnPropell.propellering}% propellering`;
-            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering for ${dagensPropelleringJson.statistikk.antallPropeller} propeller i dag er ${dagensPropelleringJson.statistikk.gjennomsnitt}%`;
+            dagensPropellering.innerText = `Topp propell i dag er ${json.topText} med hele ${json.topPercentage}% propellering`;
+            dagensMinstePropellering.innerText = `Minste propell i dag er ${json.bottomText} med kun ${json.bottomPercentage}% propellering`;
+            gjennomsnittligPropellering.innerText = `Gjennomsnittlig propellering for ${json.spins} propeller i dag er ${json.averagePercentage}%`;
         } catch (error) {
             dagensPropellering.innerText = `Ingen propell i dag :(`;
             dagensMinstePropellering.innerText = ``;
